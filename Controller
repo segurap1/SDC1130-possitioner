@@ -1,0 +1,32 @@
+import visa
+import time
+
+def getPos(obj):
+    print(obj.read('\r'))
+    #values = obj.query('?V 1')
+    #values = obj.read('\r')
+    #print(values)
+
+
+def setPos(obj, num):
+    obj.write('!P 1 %s'% num)
+    #print(obj.query('?V 2'))
+
+
+def main():
+    boolean = True
+    obj = visa.ResourceManager()
+    itc4 = obj.open_resource("COM5")
+    itc4.baud_rate = 115200
+    while(True):
+        itc4.write('?V 1')
+        #print(itc4.read('?C 1 \r'))
+
+        numero = input("Enter degree of movement: ")
+
+        if( numero != 'ex'):
+            setPos(itc4, numero)
+            getPos(itc4)
+            continue
+        itc4.close()
+        break
